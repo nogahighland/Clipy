@@ -100,7 +100,11 @@ final class CPYClipData: NSObject {
             switch type {
             case NSStringPboardType:
                 if let pbString = pasteboard.string(forType: NSStringPboardType) {
-                    stringValue = pbString
+                    if let decodedString = pbString.removingPercentEncoding {
+                        stringValue = decodedString
+                    } else {
+                        stringValue = pbString
+                    }
                 }
             case NSRTFDPboardType:
                 RTFData = pasteboard.data(forType: NSRTFDPboardType)
